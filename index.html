@@ -7,19 +7,13 @@
     on iOS devices-->
   <meta name="viewport"
         content="initial-scale=1, maximum-scale=1,user-scalable=no">
-  <title>Create Map with Custom ArcGISDynamicMapServiceLayer Layer
-    Definitions</title>
+
+  <title>Final Project</title>
 
   <link rel="stylesheet"
         href="http://js.arcgis.com/3.12/esri/css/esri.css"/>
-  <style>
-    html, body, #mapDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-    }
 
-  </style>
+  <link rel="stylesheet" href="styles.css"/>
 
   <script src="http://js.arcgis.com/3.12/"></script>
   <script>
@@ -31,31 +25,36 @@
      4) The map should have some interactive feature in it (drawing or buttons to turn layer on/off, etc).
      5) Be creative.
      **/
-
     var map;
-
     require([
           "esri/map",
-          "esri/layers/ArcGISDynamicMapServiceLayer",
-          "esri/layers/ImageParameters",
+          "esri/layers/FeatureLayer",
+          "esri/geometry/Point",
           "dojo/domReady!"
         ],
-        function (Map, ArcGISDynamicMapServiceLayer, ImageParameters) {
-
+        function (Map, FeatureLayer, Point) {
           map = new Map("mapDiv", {
-            basemap: "streets",
-            center: [-72, 42],
+            basemap: "osm",
+            center: [-19.0870316,64.3385073],
             zoom: 7
           });
-
           // Create a new layer and add that layer to the map.
-          var lyr = new ArcGISDynamicMapServiceLayer("http://stg.tsstools.com/arcgis/rest/services/txdot/lrs/MapServer");
+          var lyr = new FeatureLayer("http://dev.tsstools.com/arcgis/rest/services/hu/hu2/MapServer/0");
           map.addLayer(lyr);
+          window.onClick = function(){
+            var point = new Point(-19.0870316, 64.3385073);
+            map.centerAndZoom(point, 12);
+          }
         });
   </script>
 </head>
 
 <body>
+
 <div id="mapDiv"></div>
+
+<footer>
+  <button onclick="onClick()">Favorite 1</button>
+</footer>
 </body>
 </html>
